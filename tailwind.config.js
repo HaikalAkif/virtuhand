@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
+module.exports = {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        iRec: ['Recoreta', 'sans-serif'],
+        iGen: ['General Sans', 'sans-serif'],
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 }
 
