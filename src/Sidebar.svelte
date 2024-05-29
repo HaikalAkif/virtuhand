@@ -1,6 +1,8 @@
 <script>
   import { fly } from 'svelte/transition';
   import { FaChevronDown, FaChevronUp, FaCommentDots } from 'svelte-icons/fa';
+
+  // @ts-ignore
   import IoIosSettings from 'svelte-icons/io/IoIosSettings.svelte'
 
   import UserInfo from './UserInfo.svelte';

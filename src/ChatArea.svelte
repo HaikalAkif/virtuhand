@@ -1,10 +1,16 @@
-<script>
+<script lang='ts'>
     import { afterUpdate, createEventDispatcher, tick } from 'svelte';
+
+    // @ts-ignore
     import IoIosAddCircleOutline from 'svelte-icons/io/IoIosAddCircleOutline.svelte';
+    
+    // @ts-ignore
     import MdSend from 'svelte-icons/md/MdSend.svelte';
     import { onMount } from 'svelte';
 
     export let isMobile;
+
+    import axios from 'axios'
 
     let messageInput = '';
     let messages = [];
@@ -28,16 +34,104 @@
         node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
     }; 
 
-    function handleFileUpload(event) {
+    async function readAllChunks(readableStream) {
+        const reader = readableStream.getReader();
+        const chunks = [];
+
+        let done, value;
+        while (!done) {
+            ({ value, done } = await reader.read());
+            if (done) {
+                return chunks;
+            }
+
+            const string = new TextDecoder().decode(value);
+
+            try {
+                
+                // const parsed = JSON.parse(string).candidates![0].content.parts[0].text
+
+                messages = [...messages, { type: 'bot', text: string }];
+            
+            } catch (error) {
+                
+            }
+
+            chunks.push(value);
+        }
+    }
+
+    async function handleFileUpload(event) {
         const file = event.target.files[0];
+
+        let b64file: string;
+
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
+
+                b64file = (e.target.result as string).split(',')[1];
+
                 messages = [...messages, { type: 'user', image: e.target.result }];
                 dispatch('image', e.target.result);
             };
             reader.readAsDataURL(file);
         }
+
+        const fd = new FormData()
+
+        fd.append('image', file)
+
+        const response = await fetch("https://10f4-172-188-97-97.ngrok-free.app/chat", {
+            method: 'POST',
+            body: fd,
+        });
+
+        if (!response.ok) throw new Error(await response.text());
+
+        // for await (const chunk of response.body.getReader()) {
+        //     console.log('got', chunk);
+        // }
+
+        readAllChunks(response.body).then((chunks) => {
+            console.log('DONE');
+        })
+
+        // const response = await axios.postForm('https://10f4-172-188-97-97.ngrok-free.app/chat', {
+        //     image: file
+        // }, {
+        //     responseType: 'stream'
+        // })
+
+        // const stream = response.data
+
+        // messages = [...messages, { type: 'bot', text: '' }];
+
+        // for await (const chunk of stream) {
+
+        //     // console.log(chunk);
+
+        //     const _temp = messages
+
+        //     const lm = _temp[_temp.length - 1]
+
+        //     lm.text = lm.text + chunk
+
+        //     _temp[_temp.length - 1] = lm
+
+        //     messages = _temp;
+        // }
+
+        // const _temp = messages
+
+        // const lm = _temp[_temp.length - 1]
+
+        // lm.text = JSON.parse(lm.text).candidates![0].content.parts[0].text
+
+        // _temp[_temp.length - 1] = lm
+
+        // messages = _temp
+
     }
 
     onMount(() => {
