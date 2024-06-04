@@ -22,7 +22,7 @@
 {#if showSidebar}
 <div class="w-64 p-4">
   <div class="mb-4">
-      <h1 class="text-2xl iRec text-lime-400">VirtuHand</h1>
+      <a href="/src/Landing.svelte"><h1 class="text-2xl iRec text-lime-400">VirtuHand</h1></a>
       <div class="flex justify-between mt-4">
           <h3 class="font-semibold">Main Menu</h3>
           <button class="text-black-400 hover:text-black-300 h-[22px] w-[22px]" on:click={toggleMenu}>
@@ -66,7 +66,7 @@
           <h2 class="text-md"><a href="#" class="link">About</a></h2>
       </div>
       <div class="mb-4">
-          <h2 class="text-md"><a href="#" class="link">Terms & Policies</a></h2>
+          <h2 class="text-md"><a href="https://www.termsfeed.com/live/4299cce8-cad2-4878-a998-d5209938f0c4" class="link">Terms & Policies</a></h2>
       </div>
       <!-- <div class="mt-4">
           <UserInfo />
