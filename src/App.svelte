@@ -4,6 +4,7 @@
   import Sidebar from './Sidebar.svelte';
   import RightPanel from './RightPanel.svelte';
   import UserInfo from './UserInfo.svelte';
+  // @ts-ignore
   import GiHamburgerMenu from 'svelte-icons/gi/GiHamburgerMenu.svelte'
 
   let showSidebar = false;

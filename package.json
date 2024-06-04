@@ -19,6 +19,7 @@
   "dependencies": {
     "@sveltejs/adapter-auto": "^3.2.0",
     "axios": "^1.7.2",
-    "svelte-icons": "^2.1.0"
+    "svelte-icons": "^2.1.0",
+    "svelte-spa-router": "^4.0.1"
   }
 }
